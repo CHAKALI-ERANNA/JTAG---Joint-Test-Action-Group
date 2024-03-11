@@ -1,0 +1,154 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 02/19/2024 11:56:56 AM
+// Design Name: 
+// Module Name: TOP_WRAPPER_TB
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module TOP_WRAPPER_TB(
+
+    );
+    // inputs as reg 
+    reg TCK, TRST, TMS, TDI;
+  
+    wire TDO;
+    
+    // top module instantiation
+    TOP_WRAPPER top(
+         TCK,
+         TMS,
+         TDI,
+         TRST,
+         TDO
+    );
+    
+    // clock generation
+     // clock generation
+    initial TCK = 0;
+    always #5 TCK = ~TCK;
+    
+       // initialise task
+       task initialise;
+       begin
+            TMS = 0;
+            TRST = 0;
+            TCK = 0;
+            TDI = 0;
+       end
+       endtask
+    // reset logic
+       task reset;
+       begin
+            @(negedge TCK); 
+            TRST = 1;
+            @(negedge TCK);
+            TRST = 0;
+       end
+       endtask
+       
+       // main code
+       initial begin
+            initialise;
+            reset;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 0;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 0;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 0;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 0;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #10 TMS = 0;
+                TDI = 1;
+            #10 TMS = 0;
+            #10 TMS = 1;
+            #10 TMS = 1;
+            #30 $finish();
+       end
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+  end
+endmodule
