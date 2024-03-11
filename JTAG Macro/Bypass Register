@@ -1,0 +1,34 @@
+`timescale 1ns / 1ps
+
+
+module BYPASS(TCK, TRST, TDI, OPCD, capture_dr, shift_dr, update_dr, TDO, updated_reg);
+  input TCK, TRST, TDI, capture_dr, OPCD, shift_dr, update_dr;
+  output reg TDO;
+  output reg [2:0]updated_reg;
+  
+  reg bypass_reg;
+  
+  always@(posedge TCK) begin
+    if(TRST) begin
+      TDO <= 0;
+    end
+    else 
+    begin
+      updated_reg <= bypass_reg;
+      if(OPCD) 
+        TDO <= bypass_reg;
+    end
+   end
+  
+  always@(posedge TCK) begin
+    if(capture_dr)
+        bypass_reg <= TDI;
+    else if(shift_dr) 
+    begin
+        bypass_reg <= TDI;
+        //updated_reg <= bypass_reg;
+    end
+    else if(update_dr) 
+        updated_reg <= bypass_reg;
+    end
+endmodule
