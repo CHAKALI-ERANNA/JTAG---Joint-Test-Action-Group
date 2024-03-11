@@ -1,0 +1,72 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 02/19/2024 11:19:03 AM
+// Design Name: 
+// Module Name: TOP_WRAPPER
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module TOP_WRAPPER(
+        input TCK,
+        input TMS,
+        input TDI,
+        input TRST,
+        output TDO
+    );
+    // padring signals
+    wire P_TCK;
+    wire P_RST;
+    wire P_TMS;
+    wire P_TDI;
+    wire P_TDO;
+    
+    wire TDO_t;
+    wire TCK_t;
+    wire TRST_t;
+    wire TMS_t;
+    wire TDI_t;
+   
+   
+   // jtag macro signals
+   wire [3:0]IR_out;
+   wire capture_dr;
+   wire shift_dr;
+   wire update_dr;
+   
+   wire capture_ir;
+   wire shift_ir;
+   wire update_ir;
+   
+   wire enable;
+   wire [15:0] opcd;
+   wire updated_reg;
+   
+   // connecting inputs of top wrapper to the padring input signals
+   assign P_TCK  = TCK;
+   assign P_RST = TRST;
+   assign P_TMS = TMS;
+   assign P_TDI = TDI;
+   assign TDO = P_TDO;
+   
+    // padring module instantiation
+    PAD_Ring pad(TDO_t, P_TCK, P_RST, P_TMS, P_TDI, P_TDO, TCK_t, TRST_t, TMS_t, TDI_t);
+    
+     // jtag macro module instantiation
+    JTAG_macro macro( TDI_t, TMS_t, TRST_t, TCK_t, IR_out, capture_dr, shift_dr, update_dr, capture_ir, shift_ir, update_ir, enable, opcd, P_TDO, updated_reg
+);
+    
+endmodule
